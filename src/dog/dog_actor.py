@@ -1,5 +1,5 @@
-from dog.dog_proxy import DogProxy
-from dog.polling_thread import PollingThread
+from .dog_proxy import DogProxy
+from .polling_thread import PollingThread
 
 
 class DogActor:
