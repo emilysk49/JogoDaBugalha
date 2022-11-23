@@ -1,14 +1,12 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-import LadoDeJogo
-from Interface import ActorPlayer
-from typing import List
+from LadoDeJogo import LadoDeJogo
 
 class Tabuleiro(object):
-	def iniciarPartida(self, *jogadores : str*, idJogadorLocal : str):
+	def iniciarPartida(self, jogadores : str, idJogadorLocal : str):
 		pass
 
-	def temVaga(self, colunaSelecionada : int) -> long:
+	def temVaga(self, colunaSelecionada : int) -> bool:
 		pass
 
 	def registraColunaSelecionada(self, colunaSelecionada : int):
@@ -23,7 +21,7 @@ class Tabuleiro(object):
 	def registrarDadoGirado(self, dadoGirado : int):
 		pass
 
-	def verificarTabuleiroCheio(self) -> long:
+	def verificarTabuleiroCheio(self) -> bool:
 		pass
 
 	def quemGanhou(self) -> int:
@@ -38,7 +36,7 @@ class Tabuleiro(object):
 	def fimPartida(self):
 		pass
 
-	def checarTurnoLocal(self) -> long:
+	def checarTurnoLocal(self) -> bool:
 		pass
 
 	def verDadoAtualLocal(self) -> int:
@@ -47,13 +45,13 @@ class Tabuleiro(object):
 	def verColunaAtualLocal(self) -> int:
 		pass
 
-	def verificarDadoIgualNoOponente(self, dadoAtual : int, colunaAtual : int) -> long:
+	def verificarDadoIgualNoOponente(self, dadoAtual : int, colunaAtual : int) -> bool:
 		pass
 
 	def destruirDadoOponente(self, dadoAtual : int, colunaAtual : int):
 		pass
 
-	def pegarDadosColunaOponente(self, colunaAtual : int) -> int_3_:
+	def pegarDadosColunaOponente(self, colunaAtual : int) -> list: #list com 3 ints
 		pass
 
 	def verDadoAtualRemoto(self) -> int:
@@ -62,16 +60,16 @@ class Tabuleiro(object):
 	def verColunaAtualRemoto(self) -> int:
 		pass
 
-	def verificarDadoIgualNoLocal(self, dadoAtual : int, colunaAtual : int) -> long:
+	def verificarDadoIgualNoLocal(self, dadoAtual : int, colunaAtual : int) -> bool:
 		pass
 
 	def destruirDadoLocal(self, dadoAtual : int, colunaAtual : int):
 		pass
 
-	def pegarPontuacaoColunasLocal(self) -> int_3_:
+	def pegarPontuacaoColunasLocal(self) -> list: #list com 3 ints
 		pass
 
-	def pegarPontuacaoColunasRemoto(self) -> int_3_:
+	def pegarPontuacaoColunasRemoto(self) -> list: #list com 3 ints
 		pass
 
 	def pegarPontuacaoTotalLocal(self) -> int:
@@ -83,18 +81,13 @@ class Tabuleiro(object):
 	def inverteTurnos(self):
 		pass
 
-	def get_partida_andamento(self) -> long:
+	def get_partida_andamento(self) -> bool:
 		pass
 
-	def pegarDadosColunaLocal(self, colunaAtual : int) -> int_3_:
+	def pegarDadosColunaLocal(self, colunaAtual : int) -> list: #list com 3 ints
 		pass
 
 	def __init__(self):
-		self._partida_andamento : long = None
+		self._partida_andamento : bool = None
 		self._ladoDoJogoLocal : LadoDeJogo = None
 		self._ladoDoJogoRemoto : LadoDeJogo = None
-		self._unnamed_ActorPlayer_ : ActorPlayer = None
-		self._unnamed_LadoDeJogo_ = []
-		"""# @AssociationMultiplicity 2
-		# @AssociationKind Composition"""
-

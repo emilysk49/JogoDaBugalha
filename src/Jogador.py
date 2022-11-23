@@ -1,7 +1,5 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-import LadoDeJogo
-from typing import List
 
 class Jogador(object):
 	def inicializar(self, id : int, nome : str):
@@ -16,7 +14,7 @@ class Jogador(object):
 	def setVitoria(self):
 		pass
 
-	def checarTurno(self) -> long:
+	def checarTurno(self) -> bool:
 		pass
 
 	def inverteTurno(self):
@@ -24,12 +22,8 @@ class Jogador(object):
 
 	def __init__(self):
 		self._nome : str = None
-		self._vencedor : long = None
-		self._turno : long = None
-		self._dadoAtual : int = None
-		self._colunaAtual : int = None
-		self._colunas : Colunas* = None
-		self._pontuacaoTotal : int = None
+		self._vencedor : bool = False
+		self._turno : bool = None
 		self._id : int = None
-		self._unnamed_LadoDeJogo_ : LadoDeJogo = None
+
 

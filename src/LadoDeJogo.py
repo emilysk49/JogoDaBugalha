@@ -1,14 +1,13 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-import Jogador
-import Tabuleiro
-from typing import List
+from Jogador import Jogador
+from Coluna import Coluna
 
 class LadoDeJogo(object):
 	def inicializar(self, id : int, nome : str):
 		pass
 
-	def temVaga(self, colunaSelecionada : int) -> long:
+	def temVaga(self, colunaSelecionada : int) -> bool:
 		pass
 
 	def registraColunaSelecionada(self, colunaSelecionada : int):
@@ -23,7 +22,7 @@ class LadoDeJogo(object):
 	def registraDadoGirado(self, dadoGirado : int):
 		pass
 
-	def ladoCheio(self) -> long:
+	def ladoCheio(self) -> bool:
 		pass
 
 	def getPontuacaoTotal(self) -> int:
@@ -41,7 +40,7 @@ class LadoDeJogo(object):
 	def somaTotal(self):
 		pass
 
-	def checarTurno(self) -> long:
+	def checarTurno(self) -> bool:
 		pass
 
 	def verDadoAtual(self) -> int:
@@ -53,30 +52,23 @@ class LadoDeJogo(object):
 	def destruirDado(self, dadoAtual : int, colunaAtual : int):
 		pass
 
-	def pegarDadosColuna(self, colunaAtual : int) -> int_3_:
+	def pegarDadosColuna(self, colunaAtual : int) -> list: #list com 3 ints
 		pass
 
-	def verificarDadoIgual(self, dadoAtual : int, colunaAtual : int) -> long:
+	def verificarDadoIgual(self, dadoAtual : int, colunaAtual : int) -> bool:
 		pass
 
-	def pegarPontuacaoColunas(self) -> int_3_:
+	def pegarPontuacaoColunas(self) -> list: #list com 3 ints
 		pass
 
 	def inverteTurno(self):
 		pass
 
 	def __init__(self):
-		self._colunas : Colunas = None
+		self._colunas : list = [] #Marco quem mudou, antes era estranho, lembra q tem q por Coluna *3 aqui
 		self._pontos_totais : int = None
 		self._dadoAtual : int = None
 		self._colunaAtual : int = None
 		self._jogador : Jogador = None
 		self._fase : str = None
-		self._unnamed_Tabuleiro_ : Tabuleiro = None
-		self._unnamed_Jogador_ : Jogador = None
-		"""# @AssociationMultiplicity 1
-		# @AssociationKind Composition"""
-		self._unnamed_Coluna_ = []
-		"""# @AssociationMultiplicity 3
-		# @AssociationKind Composition"""
 
