@@ -2,6 +2,10 @@
 # -*- coding: UTF-8 -*-
 
 class Coluna(object):
+	def __init__(self):
+		self._pontuacao : int = None
+		self._dados : list = [-1,-1,-1]
+	
 	def quantidadeDados(self) -> int:
 		pass
 
@@ -18,16 +22,16 @@ class Coluna(object):
 		pass
 
 	def temVaga(self) -> bool:
-		pass
+		return self._dados[-1] == -1
 
 	def registraDadoColunaSelecionada(self, dadoAtual : int):
 		pass
 
 	def removeDado(self, pos : int):
-		pass
+		self._dados[pos] = -1
 
 	def zerarPontuacao(self):
-		pass
+		self._pontuacao = 0
 
 	def getPontuacao(self) -> int:
 		return self._pontuacao
@@ -44,7 +48,5 @@ class Coluna(object):
 	def verificarDadoIgual(self, dadoAtual : int) -> bool:
 		pass
 
-	def __init__(self):
-		self._pontuacao : int = None
-		self._dados : int = None
+	
 

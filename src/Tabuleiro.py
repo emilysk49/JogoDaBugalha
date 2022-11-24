@@ -2,24 +2,47 @@
 # -*- coding: UTF-8 -*-
 from LadoDeJogo import LadoDeJogo
 
-class Tabuleiro(object):
-	def iniciarPartida(self, jogadores : str, idJogadorLocal : str):
-		pass
+class Tabuleiro():
+	def __init__(self):
+		self._partida_andamento : bool = False
+		self._ladoDoJogoLocal : LadoDeJogo = LadoDeJogo()
+		self._ladoDoJogoRemoto : LadoDeJogo = LadoDeJogo()
+
+
+	def iniciarTabuleiro(self, jogadores : list):
+		jogadorLocal_nome = jogadores[0][0]
+		jogadorLocal_id = jogadores[0][1]
+		jogadorLocal_order = jogadores[0][2]
+		jogadorRemoto_nome = jogadores[1][0]
+		jogadorRemoto_id = jogadores[1][1]
+		self._ladoDoJogoLocal.inicializar(jogadorLocal_id, jogadorLocal_nome)
+		self._ladoDoJogoRemoto.inicializar(jogadorRemoto_id, jogadorRemoto_nome)
+
+		self.partidaEmAndamento()
+
+		if jogadorLocal_order == "1": #Vez do jogadorLocal
+			print("vc comeca")
+			self._ladoDoJogoLocal.inverteTurno()
+		else:
+			print("vc espera")
+			self._ladoDoJogoRemoto.inverteTurno()
+
 
 	def temVaga(self, colunaSelecionada : int) -> bool:
-		pass
+		return self._ladoDoJogoLocal.temVaga(colunaSelecionada)
 
 	def registraColunaSelecionada(self, colunaSelecionada : int):
-		pass
+		self._ladoDoJogoLocal(colunaSelecionada)
 
 	def registraDadoColunaSelecionada(self):
-		pass
+		self._ladoDoJogoLocal()
 
 	def reiniciarTabuleiro(self):
-		pass
+		self._ladoDoJogoLocal.limparColunas()
+		self._ladoDoJogoRemoto.limparColunas()
 
 	def registrarDadoGirado(self, dadoGirado : int):
-		pass
+		self._ladoDoJogoLocal.registraDadoGirado(dadoGirado)
 
 	def verificarTabuleiroCheio(self) -> bool:
 		pass
@@ -31,10 +54,10 @@ class Tabuleiro(object):
 		pass
 
 	def partidaEmAndamento(self):
-		pass
+		self._partida_andamento = True
 
 	def fimPartida(self):
-		pass
+		self._partida_andamento = False
 
 	def checarTurnoLocal(self) -> bool:
 		pass
@@ -87,7 +110,3 @@ class Tabuleiro(object):
 	def pegarDadosColunaLocal(self, colunaAtual : int) -> list: #list com 3 ints
 		pass
 
-	def __init__(self):
-		self._partida_andamento : bool = None
-		self._ladoDoJogoLocal : LadoDeJogo = None
-		self._ladoDoJogoRemoto : LadoDeJogo = None

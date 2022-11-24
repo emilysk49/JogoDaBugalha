@@ -36,7 +36,7 @@ class InterfaceGrafica():
 		self._menubar.add_cascade(menu=self._menu_file, label="Menu")
 		self._menu_file.add_command(label="Iniciar jogo", command=self._actorPlayer.start_match)
 
-		
+
 		for y in range(3):
 			a_column = []
 			for x in range(8):
@@ -48,7 +48,7 @@ class InterfaceGrafica():
 							"<Button-1>", lambda event, column=y: self._actorPlayer.clickTabuleiro(column)
 						)
 				else:
-					aLabel = Label(self._tabuleiro_frame, text="Num", pady=30, bg="gray", font=("_", 20))
+					aLabel = Label(self._tabuleiro_frame, text="0", pady=30, bg="gray", font=("_", 20))
 					aLabel.grid(row=x, column=y)
 				a_column.append(aLabel)
 			self._label_tabuleiro.append(a_column)
@@ -66,21 +66,25 @@ class InterfaceGrafica():
 
 		#################################################################################################################################
 		
-
-	def desabilitaColunas(self):
-		pass
+	#PODEMOS TIRAR
+	#def desabilitaColunas(self):
+	#	self._label_dado2.config(state="disabled")
 
 	def notificar(self, mensagem : str):
-		pass
+		message = mensagem
+		messagebox.showinfo(message=message)
 
-	def desabilitaGirarDado(self):
-		pass
+	#def desabilitaGirarDado(self): PODEMOS TIRAR
+	#	pass
 
 	def mostrarDadoGirado(self, dadoGirado : int, ehDadoLocal : bool):
-		pass
+		if ehDadoLocal:
+			self._label_dado2.config(image=getattr(self, '_dado'+ str(dadoGirado)))
+		else:
+			self._label_dado1.config(image=getattr(self, '_dado'+ str(dadoGirado)))
 
-	def habilitarColunas(self):
-		pass
+	#def habilitarColunas(self): PODEMOS TIRAR
+	#	pass
 
 	def redesenharColunaOponente(self, *dadosAAtualizar : int, colunaAtual : int):
 		pass
@@ -91,8 +95,8 @@ class InterfaceGrafica():
 	def atualizarPontos(self, pontuacaoColunasLocal : list, pontuacaoTotalLocal : int, pontuacaoColunasRemoto : list, pontuacaoTotalRemoto : int):
 		pass
 
-	def habilitarGirarDado(self):
-		pass
+	#def habilitarGirarDado(self): PODEMOS TIRAR
+	#	pass
 
 	def redesenharColunaLocal(self, dadosAAtualizar : list, colunaAtual : int):
 		pass
@@ -100,6 +104,14 @@ class InterfaceGrafica():
 	def inserirDadoOponente(self, dadoAtual : int, colunaAtual : int):
 		pass
 
+	#Ele carrega uma interface padrão com tudo zerado
 	def carregaInterface(self):
-		pass
+		self._label_dado1["imag"] = self._dado0
+		self._label_dado2["imag"] = self._dado0
+		for i in range(3):
+			for j in range(8):
+				if j != 3 and j != 4:
+					self._label_tabuleiro[i][j]["imag"] = self._empty
+				else:
+					self._label_tabuleiro[i][j]["text"] = "0"
 
