@@ -77,6 +77,11 @@ class Coluna(object):
 				if (self._dados[j] == -1) and (self._dados[j+1] != -1):
 					self._dados[j] = self._dados[j+1] 
 					self._dados[j+1] = -1
+		for i in range(3):
+			for j in range(2):
+				if self._dados[j] == -1 and self._dados[j+1] != -1:
+					self._dados[j] = self._dados[j+1] 
+					self._dados[j+1] = -1
 
 	def pegarDadosColuna(self) -> list: #list de 3 ints
 		return self._dados
