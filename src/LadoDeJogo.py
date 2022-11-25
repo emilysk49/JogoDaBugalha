@@ -37,6 +37,7 @@ class LadoDeJogo(object):
 			for pos in range(0,3):
 				self._colunas[col].removeDado(pos)
 			self._colunas[col].zerarPontuacao()
+		self._fase = "naoPartida"
 
 	def registraDadoGirado(self, dadoGirado : int):
 		self._fase = "posicionar"
@@ -46,21 +47,21 @@ class LadoDeJogo(object):
 		num_dados : int = 0
 		for col in range(3):
 			num_dados += self._colunas[col].quantidadeDados()
-		if num_dados == 9:
+		if num_dados == 9: #cheio
 			self._fase = "fim"
 			return True
-		else:
+		else: #nao cheio
 			self._fase = "espera"
 			return False
 
 	def getPontuacaoTotal(self) -> int:
-		pass
+		return self._pontos_totais
 
 	def getIdJogador(self) -> int:
-		pass
+		return self._jogador._id
 
 	def setVitoria(self):
-		pass
+		self._jogador.setVitoria()
 
 	def calcularPontuacao(self):
 		for c in self._colunas:
@@ -68,7 +69,10 @@ class LadoDeJogo(object):
 		self.somaTotal()
 
 	def somaTotal(self):
-		pass
+		for c in self._colunas:
+			pontos += c.getPontuacao()
+		self._pontos_totais = pontos
+				
 
 	def checarTurno(self) -> bool:
 		return self._jogador.checarTurno()

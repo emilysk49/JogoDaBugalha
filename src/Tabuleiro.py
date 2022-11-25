@@ -31,18 +31,27 @@ class Tabuleiro():
 	def temVaga(self, colunaSelecionada : int) -> bool:
 		return self._ladoDoJogoLocal.temVaga(colunaSelecionada)
 
-	def registraColunaSelecionada(self, colunaSelecionada : int):
+	def registraColunaSelecionadaLocal(self, colunaSelecionada : int):
 		self._ladoDoJogoLocal.registraColunaSelecionada(colunaSelecionada)
 
-	def registraDadoColunaSelecionada(self):
+	def registraColunaSelecionadaRemota(self, colunaSelecionada : int):
+		self._ladoDoJogoRemoto.registraColunaSelecionada(colunaSelecionada)
+
+	def registraDadoColunaSelecionadaLocal(self):
 		self._ladoDoJogoLocal.registraDadoColunaSelecionada()
+
+	def registraDadoColunaSelecionadaRemota(self):
+		self._ladoDoJogoRemoto.registraDadoColunaSelecionada()
 
 	def reiniciarTabuleiro(self):
 		self._ladoDoJogoLocal.limparColunas()
 		self._ladoDoJogoRemoto.limparColunas()
 
-	def registrarDadoGirado(self, dadoGirado : int):
+	def registrarDadoGiradoLocal(self, dadoGirado : int):
 		self._ladoDoJogoLocal.registraDadoGirado(dadoGirado)
+
+	def registrarDadoGiradoRemoto(self, dadoGirado : int):
+		self._ladoDoJogoRemoto.registraDadoGirado(dadoGirado)
 
 	def verificarTabuleiroCheio(self) -> bool:
 		local = self._ladoDoJogoLocal.ladoCheio()
@@ -95,7 +104,7 @@ class Tabuleiro():
 		return self._ladoDoJogoRemoto.verColunaAtual()
 
 	def verificarDadoIgualNoLocal(self, dadoAtual : int, colunaAtual : int) -> bool:
-		return self._ladoDoJogoLocal.verDadoAtual(dadoAtual, colunaAtual)
+		return self._ladoDoJogoLocal.verificarDadoIgual(dadoAtual, colunaAtual)
 
 	def destruirDadoLocal(self, dadoAtual : int, colunaAtual : int):
 		self._ladoDoJogoLocal.destruirDado(dadoAtual, colunaAtual)

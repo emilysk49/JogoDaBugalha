@@ -3,7 +3,7 @@
 
 class Coluna(object):
 	def __init__(self):
-		self._pontuacao : int = None
+		self._pontuacao : int = 0
 		self._dados : list = [-1,-1,-1]
 	
 	def quantidadeDados(self) -> int:

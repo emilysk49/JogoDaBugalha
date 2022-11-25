@@ -51,11 +51,15 @@ class ActorPlayer(DogPlayerInterface):
 				self._tabuleiro.registraColunaSelecionada(colunaSelecionada)
 				self._tabuleiro.registraDadoColunaSelecionada()
 				self.atualizarTabuleiro()
-				coluna = colunaSelecionada + 6
+				coluna = colunaSelecionada + 7
 				a_move["jogada"] = str(coluna)
-				a_move["match_status"] = "progress"
-				self._dog_server_interface.send_move(a_move)
 				self.verificarVencedor()
+				fim = self._tabuleiro.get_partida_andamento()
+				if fim:
+					a_move["match_status"] = "finished"
+				else:
+					a_move["match_status"] = "progress"
+				self._dog_server_interface.send_move(a_move)
 			else:
 				self._gui.notificar("Coluna Inválida")
 
@@ -70,7 +74,7 @@ class ActorPlayer(DogPlayerInterface):
 			a_move = {}
 			#self._gui.desabilitaGirarDado() PODEMOS TIRAR 
 			dadoGirado = self.aleatorizarDado()
-			self._tabuleiro.registrarDadoGirado(dadoGirado)
+			self._tabuleiro.registrarDadoGiradoLocal(dadoGirado)
 			self._gui.mostrarDadoGirado(dadoGirado, True)
 			a_move["jogada"] = str(dadoGirado)
 			a_move["match_status"] = "progress"
@@ -134,5 +138,16 @@ class ActorPlayer(DogPlayerInterface):
 		print("terminou o atualizar tabuleiro")
 
 	def receive_move(self, a_move : dict):
-		pass
+		jogada = int(a_move["jogada"])
+		if jogada <= 6:
+			self._tabuleiro.registrarDadoGiradoRemoto(jogada)
+			self._gui.mostrarDadoGirado(jogada, False)
+		else:
+			jogada -= 7
+			self._tabuleiro.registraColunaSelecionadaRemota(jogada)
+			self._tabuleiro.registraDadoColunaSelecionadaRemota()
+			self.atualizarTabuleiro()
+			self.verificarVencedor()
+
+
 
