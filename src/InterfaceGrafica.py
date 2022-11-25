@@ -3,7 +3,7 @@
 from tkinter import *
 from tkinter import simpledialog
 from tkinter import messagebox
-from DOG.dog_actor import DogActor
+from dog.dog_actor import DogActor
 
 class InterfaceGrafica():
 	def __init__(self, actor):
@@ -86,23 +86,47 @@ class InterfaceGrafica():
 	#def habilitarColunas(self): PODEMOS TIRAR
 	#	pass
 
-	def redesenharColunaOponente(self, *dadosAAtualizar : int, colunaAtual : int):
-		pass
+	def redesenharColunaOponente(self, dadosAtualizar : list, colunaAtual : int):
+		for i in range(3): #percorre a coluna de cima para baixo
+			if dadosAtualizar[i] == -1:
+				self._label_tabuleiro[colunaAtual][2-i]["imag"] = self._empty
+			else:
+				self._label_tabuleiro[colunaAtual][2-i]["imag"] = getattr(self, '_dado'+ str(dadosAtualizar[i]))
+				
 
 	def inserirDadoLocal(self, dadoAtual : int, colunaAtual : int):
-		pass
+		for i in range(3):
+			#print(self._label_tabuleiro[colunaAtual][5+i]["imag"])    #pyimage1    -> provavelmente por ser a primeira imagem carregada
+			if self._label_tabuleiro[colunaAtual][5+i]["imag"] == "pyimage1":
+				self._label_tabuleiro[colunaAtual][5+i]["imag"] = getattr(self, '_dado'+ str(dadoAtual))
+				break
 
 	def atualizarPontos(self, pontuacaoColunasLocal : list, pontuacaoTotalLocal : int, pontuacaoColunasRemoto : list, pontuacaoTotalRemoto : int):
-		pass
+		for i in range(3):
+			for u in range(2):
+				if u == 0:
+					self._label_tabuleiro[i][3+u]["text"] = str(pontuacaoColunasRemoto[i])
+				else:
+					self._label_tabuleiro[i][3+u]["text"] = str(pontuacaoColunasLocal[i])
+
+	#Atencao nao estamos fazendo nada com a pontuacaoTotal ainda!!!
+
 
 	#def habilitarGirarDado(self): PODEMOS TIRAR
 	#	pass
 
-	def redesenharColunaLocal(self, dadosAAtualizar : list, colunaAtual : int):
-		pass
+	def redesenharColunaLocal(self, dadosAtualizar : list, colunaAtual : int):
+		for i in range(3): #percorre a coluna de cima para baixo
+			if dadosAtualizar[i] == -1:
+				self._label_tabuleiro[colunaAtual][i]["imag"] = self._empty
+			else:
+				self._label_tabuleiro[colunaAtual][i]["imag"] = getattr(self, '_dado'+ str(dadosAtualizar[i]))
 
 	def inserirDadoOponente(self, dadoAtual : int, colunaAtual : int):
-		pass
+		for i in range(3):
+			if self._label_tabuleiro[colunaAtual][2-i]["imag"] == self._empty:
+				self._label_tabuleiro[colunaAtual][2-i]["imag"] = getattr(self, '_dado'+ str(dadoAtual))
+				break
 
 	#Ele carrega uma interface padrão com tudo zerado
 	def carregaInterface(self):

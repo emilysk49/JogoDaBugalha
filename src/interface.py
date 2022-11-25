@@ -1,8 +1,8 @@
 from tkinter import *
 from tkinter import simpledialog
 from tkinter import messagebox
-from DOG.dog_interface import DogPlayerInterface
-from DOG.dog_actor import DogActor
+from dog.dog_interface import DogPlayerInterface
+from dog.dog_actor import DogActor
 import random
 
 

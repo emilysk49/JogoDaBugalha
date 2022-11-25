@@ -30,7 +30,7 @@ class LadoDeJogo(object):
 
 
 	def registraDadoColunaSelecionada(self):
-		self._colunas[self._colunaAtual][-1] = self._dadoAtual
+		self._colunas[self._colunaAtual].registraDadoColunaSelecionada(self._dadoAtual)
 
 	def limparColunas(self):
 		for col in range(0,3):
@@ -43,7 +43,15 @@ class LadoDeJogo(object):
 		self._dadoAtual = dadoGirado
 
 	def ladoCheio(self) -> bool:
-		pass
+		num_dados : int = 0
+		for col in range(3):
+			num_dados += self._colunas[col].quantidadeDados()
+		if num_dados == 9:
+			self._fase = "fim"
+			return True
+		else:
+			self._fase = "espera"
+			return False
 
 	def getPontuacaoTotal(self) -> int:
 		pass
@@ -55,31 +63,37 @@ class LadoDeJogo(object):
 		pass
 
 	def calcularPontuacao(self):
-		pass
+		for c in self._colunas:
+			c.dadosCombinados()
+		self.somaTotal()
 
 	def somaTotal(self):
 		pass
 
 	def checarTurno(self) -> bool:
-		pass
+		return self._jogador.checarTurno()
 
 	def verDadoAtual(self) -> int:
-		pass
+		return self._dadoAtual
 
 	def verColunaAtual(self) -> int:
-		pass
+		return self._colunaAtual
 
 	def destruirDado(self, dadoAtual : int, colunaAtual : int):
-		pass
+		self._colunas[colunaAtual].destruirDado(dadoAtual)
+		self._colunas[colunaAtual].organizarColuna()
 
 	def pegarDadosColuna(self, colunaAtual : int) -> list: #list com 3 ints
-		pass
+		return self._colunas[colunaAtual].pegarDadosColuna()
 
 	def verificarDadoIgual(self, dadoAtual : int, colunaAtual : int) -> bool:
-		pass
+		return self._colunas[colunaAtual].verificarDadoIgual(dadoAtual)
 
 	def pegarPontuacaoColunas(self) -> list: #list com 3 ints
-		pass
+		pontosColuna = []
+		for col in range(3):
+			pontosColuna.append(self._colunas[col].getPontuacao())
+		return pontosColuna
 
 	def inverteTurno(self):
 		self._jogador.inverteTurno()

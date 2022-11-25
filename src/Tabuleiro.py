@@ -32,10 +32,10 @@ class Tabuleiro():
 		return self._ladoDoJogoLocal.temVaga(colunaSelecionada)
 
 	def registraColunaSelecionada(self, colunaSelecionada : int):
-		self._ladoDoJogoLocal(colunaSelecionada)
+		self._ladoDoJogoLocal.registraColunaSelecionada(colunaSelecionada)
 
 	def registraDadoColunaSelecionada(self):
-		self._ladoDoJogoLocal()
+		self._ladoDoJogoLocal.registraDadoColunaSelecionada()
 
 	def reiniciarTabuleiro(self):
 		self._ladoDoJogoLocal.limparColunas()
@@ -45,13 +45,24 @@ class Tabuleiro():
 		self._ladoDoJogoLocal.registraDadoGirado(dadoGirado)
 
 	def verificarTabuleiroCheio(self) -> bool:
-		pass
+		local = self._ladoDoJogoLocal.ladoCheio()
+		remoto = self._ladoDoJogoRemoto.ladoCheio()
+		return (local or remoto)
 
 	def quemGanhou(self) -> int:
-		pass
+		local = self._ladoDoJogoLocal.getPontuacaoTotal()
+		remoto = self._ladoDoJogoRemoto.getPontuacaoTotal()
+		self.fimPartida()
+		if local > remoto:
+			return 0
+		elif remoto > local:
+			return 1
+		else:
+			return -1
 
 	def calcularPontuacao(self):
-		pass
+		self._ladoDoJogoLocal.calcularPontuacao()
+		self._ladoDoJogoRemoto.calcularPontuacao()
 
 	def partidaEmAndamento(self):
 		self._partida_andamento = True
@@ -60,53 +71,60 @@ class Tabuleiro():
 		self._partida_andamento = False
 
 	def checarTurnoLocal(self) -> bool:
-		pass
+		return self._ladoDoJogoLocal.checarTurno()
 
 	def verDadoAtualLocal(self) -> int:
-		pass
+		return self._ladoDoJogoLocal.verDadoAtual()
 
 	def verColunaAtualLocal(self) -> int:
-		pass
+		return self._ladoDoJogoLocal.verColunaAtual()
 
 	def verificarDadoIgualNoOponente(self, dadoAtual : int, colunaAtual : int) -> bool:
-		pass
+		return self._ladoDoJogoRemoto.verificarDadoIgual(dadoAtual, colunaAtual)
 
 	def destruirDadoOponente(self, dadoAtual : int, colunaAtual : int):
-		pass
+		self._ladoDoJogoRemoto.destruirDado(dadoAtual, colunaAtual)
 
 	def pegarDadosColunaOponente(self, colunaAtual : int) -> list: #list com 3 ints
-		pass
+		return self._ladoDoJogoRemoto.pegarDadosColuna(colunaAtual)
 
 	def verDadoAtualRemoto(self) -> int:
-		pass
+		return self._ladoDoJogoRemoto.verDadoAtual()
 
 	def verColunaAtualRemoto(self) -> int:
-		pass
+		return self._ladoDoJogoRemoto.verColunaAtual()
 
 	def verificarDadoIgualNoLocal(self, dadoAtual : int, colunaAtual : int) -> bool:
-		pass
+		return self._ladoDoJogoLocal.verDadoAtual(dadoAtual, colunaAtual)
 
 	def destruirDadoLocal(self, dadoAtual : int, colunaAtual : int):
-		pass
+		self._ladoDoJogoLocal.destruirDado(dadoAtual, colunaAtual)
 
 	def pegarPontuacaoColunasLocal(self) -> list: #list com 3 ints
-		pass
+		return self._ladoDoJogoLocal.pegarPontuacaoColunas()
 
 	def pegarPontuacaoColunasRemoto(self) -> list: #list com 3 ints
-		pass
+		return self._ladoDoJogoRemoto.pegarPontuacaoColunas()
 
 	def pegarPontuacaoTotalLocal(self) -> int:
-		pass
+		return self._ladoDoJogoLocal.getPontuacaoTotal()
 
 	def pegarPontuacaoTotalRemoto(self) -> int:
-		pass
+		return self._ladoDoJogoRemoto.getPontuacaoTotal()
 
 	def inverteTurnos(self):
-		pass
+		self._ladoDoJogoLocal.inverteTurno()
+		self._ladoDoJogoRemoto.inverteTurno()
 
 	def get_partida_andamento(self) -> bool:
-		pass
+		return self._partida_andamento
 
 	def pegarDadosColunaLocal(self, colunaAtual : int) -> list: #list com 3 ints
-		pass
+		return self._ladoDoJogoLocal.pegarDadosColuna(colunaAtual)
+	
+	def setVitoriaLocal(self):
+		self._ladoDoJogoLocal.setVitoria()
+
+	def setVitoriaRemota(self):
+		self._ladoDoJogoRemoto.setVitoria()
 

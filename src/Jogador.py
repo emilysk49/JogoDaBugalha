@@ -25,7 +25,7 @@ class Jogador(object):
 		self._vencedor = True
 
 	def checarTurno(self) -> bool:
-		pass
+		return self._turno
 
 	def inverteTurno(self):
 		self._turno = not self._turno

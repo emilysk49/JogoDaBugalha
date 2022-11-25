@@ -5,9 +5,9 @@ from Tabuleiro import Tabuleiro
 from InterfaceGrafica import InterfaceGrafica
 from tkinter import simpledialog
 from tkinter import messagebox
-from DOG.dog_actor import DogActor
-from DOG.start_status import StartStatus
-from DOG.dog_interface import DogPlayerInterface
+from dog.dog_actor import DogActor
+from dog.start_status import StartStatus
+from dog.dog_interface import DogPlayerInterface
 from random import randint
 
 class ActorPlayer(DogPlayerInterface):
@@ -55,7 +55,7 @@ class ActorPlayer(DogPlayerInterface):
 				a_move["jogada"] = str(coluna)
 				a_move["match_status"] = "progress"
 				self._dog_server_interface.send_move(a_move)
-				self.verifcarVencedor()
+				self.verificarVencedor()
 			else:
 				self._gui.notificar("Coluna Inválida")
 
@@ -79,8 +79,20 @@ class ActorPlayer(DogPlayerInterface):
 	def aleatorizarDado(self) -> int:
 		return randint(1,6)
 
-	def verifcarVencedor(self):
-		pass
+	def verificarVencedor(self):
+		cheio = self._tabuleiro.verificarTabuleiroCheio()
+		if cheio:
+			vencedor = self._tabuleiro.quemGanhou()
+			if vencedor == 0:	#Vencedor Local
+				self._tabuleiro.setVitoriaLocal()
+				self.notificar("Parabéns, você venceu!")
+			elif vencedor == 1: #Vencedor Remoto
+				self._tabuleiro.setVitoriaRemota()
+				self.notificar("Você perdeu :(")
+			else:
+				self.notificar("Vocês empataram :O")
+		else:	#NOT cheio
+			self._tabuleiro.inverteTurnos()
 
 	def receive_start(self, start_status : StartStatus):
 		self.reiniciarTabuleiro()
@@ -101,8 +113,8 @@ class ActorPlayer(DogPlayerInterface):
 			existem = self._tabuleiro.verificarDadoIgualNoOponente(dadoAtual, colunaAtual)
 			if existem:
 				self._tabuleiro.destruirDadoOponente(dadoAtual, colunaAtual)
-			dadosAtualizar = self._tabuleiro.pegarDadosColunaOponente()
-			self._gui.redesenharColunaOponente(dadosAtualizar, colunaAtual)
+				dadosAtualizar = self._tabuleiro.pegarDadosColunaOponente(colunaAtual)
+				self._gui.redesenharColunaOponente(dadosAtualizar, colunaAtual)
 			self._gui.inserirDadoLocal(dadoAtual, colunaAtual)
 		else:
 			dadoAtual = self._tabuleiro.verDadoAtualRemoto()
@@ -110,8 +122,8 @@ class ActorPlayer(DogPlayerInterface):
 			existem = self._tabuleiro.verificarDadoIgualNoLocal(dadoAtual, colunaAtual)
 			if existem:
 				self._tabuleiro.destruirDadoLocal(dadoAtual, colunaAtual)
-			dadosAtualizar = self._tabuleiro.pegarDadosColunaLocal()
-			self._gui.redesenharColunaLocal(dadosAtualizar, colunaAtual)
+				dadosAtualizar = self._tabuleiro.pegarDadosColunaLocal(colunaAtual)
+				self._gui.redesenharColunaLocal(dadosAtualizar, colunaAtual)
 			self._gui.inserirDadoOponente(dadoAtual, colunaAtual)
 		self._tabuleiro.calcularPontuacao()
 		pontuacaoColunasLocal = self._tabuleiro.pegarPontuacaoColunasLocal()
@@ -119,6 +131,7 @@ class ActorPlayer(DogPlayerInterface):
 		pontuacaoTotalLocal = self._tabuleiro.pegarPontuacaoTotalLocal()
 		pontuacaoTotalRemoto = self._tabuleiro.pegarPontuacaoTotalRemoto()
 		self._gui.atualizarPontos(pontuacaoColunasLocal, pontuacaoTotalLocal, pontuacaoColunasRemoto, pontuacaoTotalRemoto)
+		print("terminou o atualizar tabuleiro")
 
 	def receive_move(self, a_move : dict):
 		pass
