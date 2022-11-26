@@ -27,6 +27,8 @@ class InterfaceGrafica():
 		self._label_tabuleiro : list = [] #Label's
 		self._label_dado1 : Label = None
 		self._label_dado2 : Label = None
+		self._label_pTotal1 : Label = None
+		self._label_pTotal2 : Label = None
 		self._actorPlayer = actor
 
 		self._menubar = Menu(self._main_window)
@@ -53,13 +55,20 @@ class InterfaceGrafica():
 				a_column.append(aLabel)
 			self._label_tabuleiro.append(a_column)
 
+		#pt1
+		self._label_pTotal1 = Label(self._dado_frame, text="0", bg="gray", pady=30, font=("_", 25))
+		self._label_pTotal1.grid(row=0, column=0)
+
 		self._label_dado1 = Label(self._dado_frame, bg="gray", image=self._dado0)
-		self._label_dado1.grid(row=0, column=0, pady=(0,370))
+		self._label_dado1.grid(row=1, column=0, pady=(0,370))
 		self._label_dado2 = Label(self._dado_frame, bg="gray", image=self._dado0, pady=50)
-		self._label_dado2.grid(row=1, column=0)
+		self._label_dado2.grid(row=2, column=0)
 		self._label_dado2.bind(
 			"<Button-1>", lambda event: self._actorPlayer.clickBotaoGirarDado()
 		)
+		self._label_pTotal2 = Label(self._dado_frame,  text="0", bg="gray", pady=30, font=("_", 25))
+		self._label_pTotal2.grid(row=3, column=0)
+
 
 		self._dado_frame.grid(row=0, column=1)
 		self._tabuleiro_frame.grid(row=0, column=0)
@@ -90,11 +99,9 @@ class InterfaceGrafica():
 				else:
 					self._label_tabuleiro[i][3+u]["text"] = str(pontuacaoColunasLocal[i])
 
-	#Atencao nao estamos fazendo nada com a pontuacaoTotal ainda!!!
+		self._label_pTotal1["text"] = str(pontuacaoTotalRemoto)
+		self._label_pTotal2["text"] = str(pontuacaoTotalLocal)
 
-
-	#def habilitarGirarDado(self): PODEMOS TIRAR
-	#	pass
 
 	def redesenharColunaLocal(self, dadosAtualizar : list, colunaAtual : int):
 		for i in range(3): #percorre a coluna de cima para baixo
@@ -109,6 +116,8 @@ class InterfaceGrafica():
 			if self._label_tabuleiro[colunaAtual][5+i]["imag"] == "pyimage1":
 				self._label_tabuleiro[colunaAtual][5+i]["imag"] = getattr(self, '_dado'+ str(dadoAtual))
 				break
+		self._label_dado2["imag"] = self._dado0
+
 
 	def inserirDadoOponente(self, dadoAtual : int, colunaAtual : int):
 		print("dado atual oponente: %d" % dadoAtual)
@@ -117,11 +126,15 @@ class InterfaceGrafica():
 			if self._label_tabuleiro[colunaAtual][2-i]["imag"] == "pyimage1":
 				self._label_tabuleiro[colunaAtual][2-i]["imag"] = getattr(self, '_dado'+ str(dadoAtual))
 				break
+		self._label_dado1["imag"] = self._dado0
+
 
 	#Ele carrega uma interface padrão com tudo zerado
 	def carregaInterface(self):
 		self._label_dado1["imag"] = self._dado0
 		self._label_dado2["imag"] = self._dado0
+		self._label_pTotal1["text"] = str(0)
+		self._label_pTotal2["text"] = str(0)
 		for i in range(3):
 			for j in range(8):
 				if j != 3 and j != 4:
