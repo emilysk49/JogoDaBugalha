@@ -21,10 +21,8 @@ class Tabuleiro():
 		self.partidaEmAndamento()
 
 		if jogadorLocal_order == "1": #Vez do jogadorLocal
-			print("vc comeca")
 			self._ladoDoJogoLocal.inverteTurno()
 		else:
-			print("vc espera")
 			self._ladoDoJogoRemoto.inverteTurno()
 
 

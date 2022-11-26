@@ -69,6 +69,7 @@ class LadoDeJogo(object):
 		self.somaTotal()
 
 	def somaTotal(self):
+		pontos : int = 0
 		for c in self._colunas:
 			pontos += c.getPontuacao()
 		self._pontos_totais = pontos

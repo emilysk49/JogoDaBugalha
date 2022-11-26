@@ -14,4 +14,4 @@ class PollingThread(Thread):
                 self.proxy.start_status()
             elif status == 3:  #   waiting remote move
                 self.proxy.match_status()
-            time.sleep(1)  # Sleep for 1 second
+            time.sleep(0.025)  # Sleep for 1 second

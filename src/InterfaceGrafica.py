@@ -65,26 +65,14 @@ class InterfaceGrafica():
 		self._tabuleiro_frame.grid(row=0, column=0)
 
 		#################################################################################################################################
-		
-	#PODEMOS TIRAR
-	#def desabilitaColunas(self):
-	#	self._label_dado2.config(state="disabled")
 
-	def notificar(self, mensagem : str):
-		message = mensagem
-		messagebox.showinfo(message=message)
-
-	#def desabilitaGirarDado(self): PODEMOS TIRAR
-	#	pass
+	
 
 	def mostrarDadoGirado(self, dadoGirado : int, ehDadoLocal : bool):
 		if ehDadoLocal:
 			self._label_dado2.config(image=getattr(self, '_dado'+ str(dadoGirado)))
 		else:
 			self._label_dado1.config(image=getattr(self, '_dado'+ str(dadoGirado)))
-
-	#def habilitarColunas(self): PODEMOS TIRAR
-	#	pass
 
 	def redesenharColunaOponente(self, dadosAtualizar : list, colunaAtual : int):
 		for i in range(3): #percorre a coluna de cima para baixo
@@ -93,13 +81,6 @@ class InterfaceGrafica():
 			else:
 				self._label_tabuleiro[colunaAtual][2-i]["imag"] = getattr(self, '_dado'+ str(dadosAtualizar[i]))
 				
-
-	def inserirDadoLocal(self, dadoAtual : int, colunaAtual : int):
-		for i in range(3):
-			#print(self._label_tabuleiro[colunaAtual][5+i]["imag"])    #pyimage1    -> provavelmente por ser a primeira imagem carregada
-			if self._label_tabuleiro[colunaAtual][5+i]["imag"] == "pyimage1":
-				self._label_tabuleiro[colunaAtual][5+i]["imag"] = getattr(self, '_dado'+ str(dadoAtual))
-				break
 
 	def atualizarPontos(self, pontuacaoColunasLocal : list, pontuacaoTotalLocal : int, pontuacaoColunasRemoto : list, pontuacaoTotalRemoto : int):
 		for i in range(3):
@@ -118,13 +99,22 @@ class InterfaceGrafica():
 	def redesenharColunaLocal(self, dadosAtualizar : list, colunaAtual : int):
 		for i in range(3): #percorre a coluna de cima para baixo
 			if dadosAtualizar[i] == -1:
-				self._label_tabuleiro[colunaAtual][i]["imag"] = self._empty
+				self._label_tabuleiro[colunaAtual][5+i]["imag"] = self._empty
 			else:
-				self._label_tabuleiro[colunaAtual][i]["imag"] = getattr(self, '_dado'+ str(dadosAtualizar[i]))
+				self._label_tabuleiro[colunaAtual][5+i]["imag"] = getattr(self, '_dado'+ str(dadosAtualizar[i]))
+
+	def inserirDadoLocal(self, dadoAtual : int, colunaAtual : int):
+		for i in range(3):
+			#print(self._label_tabuleiro[colunaAtual][5+i]["imag"])    #pyimage1    -> provavelmente por ser a primeira imagem carregada
+			if self._label_tabuleiro[colunaAtual][5+i]["imag"] == "pyimage1":
+				self._label_tabuleiro[colunaAtual][5+i]["imag"] = getattr(self, '_dado'+ str(dadoAtual))
+				break
 
 	def inserirDadoOponente(self, dadoAtual : int, colunaAtual : int):
+		print("dado atual oponente: %d" % dadoAtual)
+		print("Coluna atual oponente: %d" % colunaAtual)
 		for i in range(3):
-			if self._label_tabuleiro[colunaAtual][2-i]["imag"] == self._empty:
+			if self._label_tabuleiro[colunaAtual][2-i]["imag"] == "pyimage1":
 				self._label_tabuleiro[colunaAtual][2-i]["imag"] = getattr(self, '_dado'+ str(dadoAtual))
 				break
 

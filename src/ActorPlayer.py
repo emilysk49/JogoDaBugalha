@@ -23,11 +23,8 @@ class ActorPlayer(DogPlayerInterface):
 		self._gui._main_window.mainloop()
 		
 
-	def selecionarPosicao(self, colunaSelecionada : int):
-		pass
-
 	def notificar(self, mensagem : str):
-		pass
+		messagebox.showinfo(message=mensagem)
 
 	def start_match(self):
 		start_status = self._dog_server_interface.start_match(2)
@@ -40,28 +37,30 @@ class ActorPlayer(DogPlayerInterface):
 			self.reiniciarTabuleiro()
 			jogadores = start_status.get_players()
 			self._tabuleiro.iniciarTabuleiro(jogadores)
-			messagebox.showinfo(message=message)
-
+			if jogadores[0][2] == "1":
+				messagebox.showinfo(message="Sua vez, rode o dado e posicione", title="Partida Iniciada")
+			else:
+				messagebox.showinfo(message="Vez do adversario, espere a jogada", title="Partida Iniciada")
 
 	def clickTabuleiro(self, colunaSelecionada : int):
 		if self._tabuleiro._ladoDoJogoLocal._fase == "posicionar":
 			colunaValida = self._tabuleiro.temVaga(colunaSelecionada)
 			if colunaValida:
 				a_move = {}
-				self._tabuleiro.registraColunaSelecionada(colunaSelecionada)
-				self._tabuleiro.registraDadoColunaSelecionada()
+				self._tabuleiro.registraColunaSelecionadaLocal(colunaSelecionada)
+				self._tabuleiro.registraDadoColunaSelecionadaLocal()
 				self.atualizarTabuleiro()
 				coluna = colunaSelecionada + 7
 				a_move["jogada"] = str(coluna)
 				self.verificarVencedor()
-				fim = self._tabuleiro.get_partida_andamento()
-				if fim:
+				andamento = self._tabuleiro.get_partida_andamento()
+				if not andamento:
 					a_move["match_status"] = "finished"
 				else:
-					a_move["match_status"] = "progress"
+					a_move["match_status"] = "next"
 				self._dog_server_interface.send_move(a_move)
 			else:
-				self._gui.notificar("Coluna Inválida")
+				self.notificar("Coluna Inválida")
 
 
 	def reiniciarTabuleiro(self):
@@ -70,7 +69,6 @@ class ActorPlayer(DogPlayerInterface):
 
 	def clickBotaoGirarDado(self):
 		if self._tabuleiro._ladoDoJogoLocal._fase == "lancarDado":
-			print("CLICOU")
 			a_move = {}
 			#self._gui.desabilitaGirarDado() PODEMOS TIRAR 
 			dadoGirado = self.aleatorizarDado()
@@ -101,13 +99,16 @@ class ActorPlayer(DogPlayerInterface):
 	def receive_start(self, start_status : StartStatus):
 		self.reiniciarTabuleiro()
 		jogadores = start_status.get_players()
-		message = start_status.get_message()
 		self._tabuleiro.iniciarTabuleiro(jogadores)
+		if jogadores[0][2] == "1":
+			messagebox.showinfo(message="Sua vez, rode o dado e posicione", title="Partida Iniciada")
+		else:
+			messagebox.showinfo(message="Vez do adversario, espere a jogada", title="Partida Iniciada")
 		#self.reiniciarTabuleiro() #precisa ocorrer dentro de iniciar partida
-		messagebox.showinfo(message=message)
+		#messagebox.showinfo(message=message)
 
 	def receive_withdrawal_notification(self):
-		pass
+		self.notificar("Adversário desistiu, você venceu!")
 
 	def atualizarTabuleiro(self):
 		turnoLocal = self._tabuleiro.checarTurnoLocal()
@@ -135,7 +136,6 @@ class ActorPlayer(DogPlayerInterface):
 		pontuacaoTotalLocal = self._tabuleiro.pegarPontuacaoTotalLocal()
 		pontuacaoTotalRemoto = self._tabuleiro.pegarPontuacaoTotalRemoto()
 		self._gui.atualizarPontos(pontuacaoColunasLocal, pontuacaoTotalLocal, pontuacaoColunasRemoto, pontuacaoTotalRemoto)
-		print("terminou o atualizar tabuleiro")
 
 	def receive_move(self, a_move : dict):
 		jogada = int(a_move["jogada"])

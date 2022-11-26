@@ -3,7 +3,7 @@
 
 class Coluna(object):
 	def __init__(self):
-		self._pontuacao : int = 0
+		self._pontuacao : int = None
 		self._dados : list = [-1,-1,-1]
 	
 	def quantidadeDados(self) -> int:
@@ -36,15 +36,6 @@ class Coluna(object):
 				else:	#NOT tem
 					self._pontuacao += self._dados[c]
 
-
-	def multiplicarDados(self, quantidadeDados : int, valorDado : int) -> int:
-		pass
-
-	def haOutroDado(self) -> bool:
-		pass
-
-	def soma(self, pontuacao : int, dado : int) -> int:
-		pass
 
 	def temVaga(self) -> bool:
 		return self._dados[-1] == -1
