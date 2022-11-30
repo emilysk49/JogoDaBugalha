@@ -9,6 +9,7 @@ from dog.dog_actor import DogActor
 from dog.start_status import StartStatus
 from dog.dog_interface import DogPlayerInterface
 from random import randint
+import time
 
 class ActorPlayer(DogPlayerInterface):
 	def __init__(self):
@@ -36,6 +37,8 @@ class ActorPlayer(DogPlayerInterface):
 		else:#    (code=='2')
 			self.reiniciarTabuleiro()
 			jogadores = start_status.get_players()
+			self._gui._label_nome1["text"] = jogadores[1][0]
+			self._gui._label_nome2["text"] = jogadores[0][0]
 			self._tabuleiro.iniciarTabuleiro(jogadores)
 			if jogadores[0][2] == "1":
 				messagebox.showinfo(message="Sua vez, rode o dado e posicione", title="Partida Iniciada")
@@ -70,7 +73,6 @@ class ActorPlayer(DogPlayerInterface):
 	def clickBotaoGirarDado(self):
 		if self._tabuleiro._ladoDoJogoLocal._fase == "lancarDado":
 			a_move = {}
-			#self._gui.desabilitaGirarDado() PODEMOS TIRAR 
 			dadoGirado = self.aleatorizarDado()
 			self._tabuleiro.registrarDadoGiradoLocal(dadoGirado)
 			self._gui.mostrarDadoGirado(dadoGirado, True)
@@ -87,11 +89,14 @@ class ActorPlayer(DogPlayerInterface):
 			vencedor = self._tabuleiro.quemGanhou()
 			if vencedor == 0:	#Vencedor Local
 				self._tabuleiro.setVitoriaLocal()
+				time.sleep(1)
 				self.notificar("Parabéns, você venceu!")
 			elif vencedor == 1: #Vencedor Remoto
 				self._tabuleiro.setVitoriaRemota()
+				time.sleep(1)
 				self.notificar("Você perdeu :(")
 			else:
+				time.sleep(1)
 				self.notificar("Vocês empataram :O")
 		else:	#NOT cheio
 			self._tabuleiro.inverteTurnos()
@@ -99,6 +104,8 @@ class ActorPlayer(DogPlayerInterface):
 	def receive_start(self, start_status : StartStatus):
 		self.reiniciarTabuleiro()
 		jogadores = start_status.get_players()
+		self._gui._label_nome1["text"] = jogadores[1][0]
+		self._gui._label_nome2["text"] = jogadores[0][0]
 		self._tabuleiro.iniciarTabuleiro(jogadores)
 		if jogadores[0][2] == "1":
 			messagebox.showinfo(message="Sua vez, rode o dado e posicione", title="Partida Iniciada")

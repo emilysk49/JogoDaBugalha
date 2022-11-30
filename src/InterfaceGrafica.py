@@ -29,6 +29,8 @@ class InterfaceGrafica():
 		self._label_dado2 : Label = None
 		self._label_pTotal1 : Label = None
 		self._label_pTotal2 : Label = None
+		self._label_nome1 : Label = None
+		self._label_nome2 : Label = None
 		self._actorPlayer = actor
 
 		self._menubar = Menu(self._main_window)
@@ -43,32 +45,38 @@ class InterfaceGrafica():
 			a_column = []
 			for x in range(8):
 				if x != 3 and x != 4:
-					aLabel = Label(self._tabuleiro_frame, bd=2, image=self._empty)
+					aLabel = Label(self._tabuleiro_frame, bd=2, image=self._empty, bg="gray21")
 					aLabel.grid(row=x, column=y)
 					if x > 4:
 						aLabel.bind(
 							"<Button-1>", lambda event, column=y: self._actorPlayer.clickTabuleiro(column)
 						)
 				else:
-					aLabel = Label(self._tabuleiro_frame, text="0", pady=30, bg="gray", font=("_", 20))
+					aLabel = Label(self._tabuleiro_frame, text="0", pady=30, bg="gray", fg="white", font=("_", 20))
 					aLabel.grid(row=x, column=y)
 				a_column.append(aLabel)
 			self._label_tabuleiro.append(a_column)
 
 		#pt1
-		self._label_pTotal1 = Label(self._dado_frame, text="0", bg="gray", pady=30, font=("_", 25))
+		self._label_pTotal1 = Label(self._dado_frame, text="0", bg="gray", pady=30, fg="white", font=("_", 25))
 		self._label_pTotal1.grid(row=0, column=0)
 
 		self._label_dado1 = Label(self._dado_frame, bg="gray", image=self._dado0)
-		self._label_dado1.grid(row=1, column=0, pady=(0,370))
+		self._label_dado1.grid(row=1, column=0)
+
+		self._label_nome1 = Label(self._dado_frame, text="", bg="gray", pady=30, fg="white", font=("_", 25))
+		self._label_nome1.grid(row=2, column=0, pady=(0,300))
+
 		self._label_dado2 = Label(self._dado_frame, bg="gray", image=self._dado0, pady=50)
-		self._label_dado2.grid(row=2, column=0)
+		self._label_dado2.grid(row=4, column=0)
 		self._label_dado2.bind(
 			"<Button-1>", lambda event: self._actorPlayer.clickBotaoGirarDado()
 		)
-		self._label_pTotal2 = Label(self._dado_frame,  text="0", bg="gray", pady=30, font=("_", 25))
+		self._label_pTotal2 = Label(self._dado_frame,  text="0", bg="gray", pady=30, fg="white", font=("_", 25))
 		self._label_pTotal2.grid(row=3, column=0)
 
+		self._label_nome2 = Label(self._dado_frame, text="", bg="gray", pady=30, fg="white", font=("_", 25))
+		self._label_nome2.grid(row=5, column=0)
 
 		self._dado_frame.grid(row=0, column=1)
 		self._tabuleiro_frame.grid(row=0, column=0)
