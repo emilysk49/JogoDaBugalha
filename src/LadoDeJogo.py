@@ -5,19 +5,22 @@ from Coluna import Coluna
 
 class LadoDeJogo(object):
 	def __init__(self):
+		self._jogador : Jogador = Jogador()
 		self._colunas : list = [] #Marco quem mudou, antes era estranho, lembra q tem q por Coluna *3 aqui
 		for i in range(3):
 			self._colunas.append(Coluna())
 		self._pontos_totais : int = 0
 		self._dadoAtual : int = -1
 		self._colunaAtual : int = -1
-		self._jogador : Jogador = Jogador()
 		self._fase : str = "naoPartida"
 	
 	def inicializar(self, id : int, nome : str):
 		self._jogador.resetJogador()
 		self._jogador.inicializar(id, nome)
 		self._fase = "espera"
+
+	def pegaFase(self):
+		return self._fase
 
 	def temVaga(self, colunaSelecionada : int) -> bool:
 		if self._colunas[colunaSelecionada].temVaga():

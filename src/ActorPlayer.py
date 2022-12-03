@@ -32,7 +32,7 @@ class ActorPlayer(DogPlayerInterface):
 		code = start_status.get_code()
 		message = start_status.get_message()
 
-		if code == "0" or code == "1": #quando nao ha jogador
+		if code == "0" or code == "1": #quando nao ha jogador suficiente
 			messagebox.showinfo(message=message)
 		else:#    (code=='2')
 			self.reiniciarTabuleiro()
@@ -46,15 +46,16 @@ class ActorPlayer(DogPlayerInterface):
 				messagebox.showinfo(message="Vez do adversario, espere a jogada", title="Partida Iniciada")
 
 	def clickTabuleiro(self, colunaSelecionada : int):
-		if self._tabuleiro._ladoDoJogoLocal._fase == "posicionar":
+		fase = self._tabuleiro._ladoDoJogoLocal.pegaFase()
+		if fase == "posicionar":
 			colunaValida = self._tabuleiro.temVaga(colunaSelecionada)
 			if colunaValida:
 				a_move = {}
 				self._tabuleiro.registraColunaSelecionadaLocal(colunaSelecionada)
 				self._tabuleiro.registraDadoColunaSelecionadaLocal()
-				self.atualizarTabuleiro()
 				coluna = colunaSelecionada + 7
 				a_move["jogada"] = str(coluna)
+				self.atualizarTabuleiro()
 				self.verificarVencedor()
 				andamento = self._tabuleiro.get_partida_andamento()
 				if not andamento:
@@ -71,7 +72,8 @@ class ActorPlayer(DogPlayerInterface):
 		self._gui.carregaInterface()
 
 	def clickBotaoGirarDado(self):
-		if self._tabuleiro._ladoDoJogoLocal._fase == "lancarDado":
+		fase = self._tabuleiro._ladoDoJogoLocal.pegaFase()
+		if fase == "lancarDado":
 			a_move = {}
 			dadoGirado = self.aleatorizarDado()
 			self._tabuleiro.registrarDadoGiradoLocal(dadoGirado)
@@ -111,8 +113,6 @@ class ActorPlayer(DogPlayerInterface):
 			messagebox.showinfo(message="Sua vez, rode o dado e posicione", title="Partida Iniciada")
 		else:
 			messagebox.showinfo(message="Vez do adversario, espere a jogada", title="Partida Iniciada")
-		#self.reiniciarTabuleiro() #precisa ocorrer dentro de iniciar partida
-		#messagebox.showinfo(message=message)
 
 	def receive_withdrawal_notification(self):
 		self.notificar("Adversário desistiu, você venceu!")
@@ -146,10 +146,10 @@ class ActorPlayer(DogPlayerInterface):
 
 	def receive_move(self, a_move : dict):
 		jogada = int(a_move["jogada"])
-		if jogada <= 6:
+		if jogada <= 6: #dado girado
 			self._tabuleiro.registrarDadoGiradoRemoto(jogada)
 			self._gui.mostrarDadoGirado(jogada, False)
-		else:
+		else: #coluna selecionada
 			jogada -= 7
 			self._tabuleiro.registraColunaSelecionadaRemota(jogada)
 			self._tabuleiro.registraDadoColunaSelecionadaRemota()

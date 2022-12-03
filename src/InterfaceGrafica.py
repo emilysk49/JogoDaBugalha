@@ -16,6 +16,7 @@ class InterfaceGrafica():
 
 		self._tabuleiro_frame = Frame(self._main_window, padx=30, pady=30, bg="gray")
 		self._dado_frame : Frame = Frame(self._main_window, padx=32, bg="gray")
+
 		self._empty : PhotoImage = PhotoImage(file="images/empty.gif")
 		self._dado0 : PhotoImage = PhotoImage(file="images/dado0.gif")
 		self._dado1 : PhotoImage = PhotoImage(file="images/dado1.gif")
@@ -57,7 +58,7 @@ class InterfaceGrafica():
 				a_column.append(aLabel)
 			self._label_tabuleiro.append(a_column)
 
-		#pt1
+
 		self._label_pTotal1 = Label(self._dado_frame, text="0", bg="gray", pady=30, fg="white", font=("_", 25))
 		self._label_pTotal1.grid(row=0, column=0)
 
@@ -120,7 +121,6 @@ class InterfaceGrafica():
 
 	def inserirDadoLocal(self, dadoAtual : int, colunaAtual : int):
 		for i in range(3):
-			#print(self._label_tabuleiro[colunaAtual][5+i]["imag"])    #pyimage1    -> provavelmente por ser a primeira imagem carregada
 			if self._label_tabuleiro[colunaAtual][5+i]["imag"] == "pyimage1":
 				self._label_tabuleiro[colunaAtual][5+i]["imag"] = getattr(self, '_dado'+ str(dadoAtual))
 				break
@@ -128,8 +128,6 @@ class InterfaceGrafica():
 
 
 	def inserirDadoOponente(self, dadoAtual : int, colunaAtual : int):
-		print("dado atual oponente: %d" % dadoAtual)
-		print("Coluna atual oponente: %d" % colunaAtual)
 		for i in range(3):
 			if self._label_tabuleiro[colunaAtual][2-i]["imag"] == "pyimage1":
 				self._label_tabuleiro[colunaAtual][2-i]["imag"] = getattr(self, '_dado'+ str(dadoAtual))
